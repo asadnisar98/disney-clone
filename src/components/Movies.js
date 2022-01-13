@@ -1,37 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
+import { selectMovies } from "../features/movie/movieSlice"
+import { useSelector } from "react-redux"
 
 function Movies() {
+
+    const movies = useSelector(selectMovies);
+    
+
     return (
         <Container>
             <h4>
                 Recommended for you
             </h4>
             <Content>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
+
+                { movies.map((movie)=>(
+                    <Wrap key={movie.id}>
+                    <img src={movie.cardImg} />
                 </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
-                <Wrap>
-                    <img src="https://occ-0-1242-64.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABdFTpLmANuJpYneLq8L5m7CunMCi8e8Nl4y7xaPVWzG3IeoDoq17egTQAthApKg_4sdRWdwuR8KadWu1frjL3JQImpwq.png?r=fcd" />
-                </Wrap>
+                )
+                )}
             </Content>
         </Container>
     )
@@ -53,6 +42,7 @@ const Content = styled.div`
 
 const Wrap = styled.div`
 
+    max-height: 350px;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
