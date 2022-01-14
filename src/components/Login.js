@@ -1,12 +1,58 @@
- import React from 'react'
+ import React, { useEffect } from 'react'
  import styled from 'styled-components'
+ import { auth, provider } from '../firebase'
+ import { useHistory } from 'react-router-dom'
+ import {
+    selectUserName,
+    selectUserPhoto,
+   setUserLogin,
+   setSignOut
+} from "../features/user/userSlice"
+import { useDispatch, useSelector } from "react-redux"
  
  function Login() {
+
+
+    const dispatch = useDispatch();
+    let history = useHistory();
+    const userName = useSelector(selectUserName);
+    const userPhoto = useSelector(selectUserPhoto);
+    
+    useEffect(()=>{
+        auth.onAuthStateChanged(async (user)=>{
+            if(user){
+                dispatch(setUserLogin({
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL
+                }))
+                history.push('/');
+            }
+            if(!user){
+                history.push('/login');
+            }
+        })
+    }, [])
+
+    const signIn = () => {
+        auth.signInWithPopup(provider)
+        .then((result)=>{
+            let user = result.user
+            dispatch(setUserLogin({
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL
+            }))
+            history.push('/');
+        })
+    }
+
+
      return (
          <Container>
              <ContentBox>
                 <CTALogoOne src="/images/cta-logo-one.svg" />
-                <SignUp>
+                <SignUp onClick={signIn}>
                     Get all there
                 </SignUp>
                 <Description>
