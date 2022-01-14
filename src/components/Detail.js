@@ -1,37 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+import db from "../firebase"
 
 function Detail() {
+
+    const { id } = useParams();
+    const [ movie, setMovie ] = useState();
+
+    useEffect(()=>{ 
+        // grab the movie
+        db.collection("movies")
+        .doc(id)
+        .get()
+        .then((doc)=>{
+            if(doc.exists) {
+                //save the movie data
+                setMovie(doc.data());
+            }
+            else {
+                //redirect to homepage/error page
+            }
+        })
+    }, [])
+
     return (
         <Conatiner>
-            <Background>
-                <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/4F39B7E16726ECF419DD7C49E011DD95099AA20A962B0B10AA1881A70661CE45/scale?width=1440&aspectRatio=1.78&format=jpeg" />
-            </Background>
-            <ImageTitle>
-                <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78" />
-            </ImageTitle>
-            <Controls>
-                <Playbutton>
-                    <img src="/images/play-icon-black.png" />
-                    <span>PLAY</span>
-                </Playbutton>
-                <TrailorButton>
-                <img src="/images/play-icon-white.png" />
-                    <span>Trailor</span>
-                </TrailorButton>
-                <AddButton>
-                    <span>+</span>
-                </AddButton>
-                <GroupWatchButton>
-                    <img src="/images/group-icon.png" />
-                </GroupWatchButton>
-            </Controls>
-            <Subtitle>
-                temp ssss
-            </Subtitle>
-            <Description>
-                A description worth checking out
-            </Description>
+            {movie &&  (
+                <>
+              <Background>
+              <img src={movie.cardImg} />
+          </Background>
+          <ImageTitle>
+              <h2>{movie.title}</h2>
+          </ImageTitle>
+          <Controls>
+              <Playbutton>
+                  <img src="/images/play-icon-black.png" />
+                  <span>PLAY</span>
+              </Playbutton>
+              <TrailorButton>
+              <img src="/images/play-icon-white.png" />
+                  <span>Trailor</span>
+              </TrailorButton>
+              <AddButton>
+                  <span>+</span>
+              </AddButton>
+              <GroupWatchButton>
+                  <img src="/images/group-icon.png" />
+              </GroupWatchButton>
+          </Controls>
+          <Subtitle>
+              {movie.subTitle}
+          </Subtitle>
+          <Description>
+              {movie.desc}
+          </Description>
+           </> )}
+          
         </Conatiner>
     )
 }
@@ -51,7 +77,7 @@ const Background = styled.div`
     bottom: 0;
     right: 0;
     z-index: -1;
-    opacity: 0.8;
+    opacity: 0.4;
 
     img {
         width: 100%;
@@ -61,16 +87,12 @@ const Background = styled.div`
 
 `
 const ImageTitle = styled.div`
-    height: 30vh;
+    min-height: 5vh;
     width: 35vw;
     min-height: 170px;
     min-width: 200px;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
+    font-size: 60px;
+    margin-bottom: 40px
 `
 
 const Controls = styled.div`
