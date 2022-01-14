@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux"
 
 
 function Header() {
+    
+    const imageUser = useSelector(selectUserPhoto);
     const dispatch = useDispatch();
     let history = useHistory();
     const userName = useSelector(selectUserName);
@@ -92,7 +94,7 @@ function Header() {
                     <span>series</span>
                 </a>
             </NavMenu>
-            <UserImg onClick={signOut} src="/images/user.jpg" />
+            <UserImg onClick={signOut} src={imageUser} />
             </>
             }
           
